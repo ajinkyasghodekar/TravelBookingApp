@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using Serilog.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
