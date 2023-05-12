@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelBookingApp.Data;
 
@@ -10,9 +11,11 @@ using TravelBookingApp.Data;
 namespace TravelBookingApp.Migrations
 {
     [DbContext(typeof(MyAppDb))]
-    partial class MyAppDbModelSnapshot : ModelSnapshot
+    [Migration("20230512135529_AddFlightsTableToDb")]
+    partial class AddFlightsTableToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,8 +14,14 @@ namespace TravelBookingApp.Data
         // Table for Users
         public DbSet<Users> UsersTable { get; set; }
 
+
         // Table for Airline
         public DbSet<Airlines> AirlinesTable { get; set; }
+
+
+        // Table for Flight
+        public DbSet<Flights> FlightsTable { get; set; }
+        
 
         // Inserting sample data to Users table
         protected override void OnModelCreating(ModelBuilder modelBuilder)
