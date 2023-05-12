@@ -11,8 +11,8 @@ using TravelBookingApp.Data;
 namespace TravelBookingApp.Migrations
 {
     [DbContext(typeof(MyAppDb))]
-    [Migration("20230511100152_AddUsersTable")]
-    partial class AddUsersTable
+    [Migration("20230512084903_AddAirlinesTableToDb")]
+    partial class AddAirlinesTableToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,27 @@ namespace TravelBookingApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("TravelBookingApp.Model.Airlines", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AirlineCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AirlineName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AirlinesTable");
+                });
 
             modelBuilder.Entity("TravelBookingApp.Model.Users", b =>
                 {

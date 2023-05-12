@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TravelBookingApp.Model.Dto
+namespace TravelBookingApp.Model.Dto.User
 {
     public class UserUpdateDTO
     {

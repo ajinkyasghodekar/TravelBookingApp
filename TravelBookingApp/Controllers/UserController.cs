@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using TravelBookingApp.Data;
 using TravelBookingApp.Model;
-using TravelBookingApp.Model.Dto;
+using TravelBookingApp.Model.Dto.User;
 
 namespace TravelBookingApp.Controllers
 {
     [ApiController]
-    [Route("api/TravelBookingApp")]
-
+    [Route("api/TravelBookingAppUsers")]
     public class UserController : ControllerBase
     {
         private readonly MyAppDb _db;
