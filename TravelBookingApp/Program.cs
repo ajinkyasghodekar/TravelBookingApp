@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TravelBookingApp;
 using TravelBookingApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MyAppDb>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
+
+// Builder for AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMappingConfig));
 
 var app = builder.Build();
 

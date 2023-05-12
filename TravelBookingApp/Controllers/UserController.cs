@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using TravelBookingApp.Data;
@@ -13,16 +14,19 @@ namespace TravelBookingApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly MyAppDb _db;
-        public UserController(MyAppDb db)
+        private readonly IMapper _mapper;
+        public UserController(MyAppDb db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
         // Get all User [HttpGet]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return Ok(await _db.UsersTable.ToListAsync());
+            IEnumerable <Users> userList = await _db.UsersTable.ToListAsync();
+            return Ok(_mapper.Map<List<UserDTO>>(userList));
         }
 
         // Get User by Id [HttpGet]
@@ -41,7 +45,7 @@ namespace TravelBookingApp.Controllers
             {
                 return NotFound();
             }
-            return Ok(user);
+            return Ok(_mapper.Map<UserDTO>(user));
         }
 
         // Create a User [HttpPost]
@@ -49,25 +53,20 @@ namespace TravelBookingApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UserDTO>> CreateUser([FromBody] UserCreateDTO userDTO)
+        public async Task<ActionResult<UserDTO>> CreateUser([FromBody] UserCreateDTO userCreateDTO)
         {
             // Custom validation for User's Name
-            if (await _db.UsersTable.FirstOrDefaultAsync(u => u.Name.ToLower() == userDTO.Name.ToLower()) != null)
+            if (await _db.UsersTable.FirstOrDefaultAsync(u => u.Name.ToLower() == userCreateDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("", "User Name Already Exists");
                 return BadRequest(ModelState);
             }
-            Users model = new()
-            {
-                Name = userDTO.Name,
-                Email = userDTO.Email,
-                Password = userDTO.Password,
-                Role = userDTO.Role
-            };
+            Users model = _mapper.Map<Users>(userCreateDTO);
+
            await _db.UsersTable.AddAsync(model);
            await _db.SaveChangesAsync();
 
-            return Ok(userDTO);
+            return Ok(userCreateDTO);
         }
 
         // Delete a User [HttpDelete] based on Id
@@ -96,20 +95,14 @@ namespace TravelBookingApp.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userDTO)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userUpdateDTO)
         {
-            if (userDTO == null || id != userDTO.Id)
+            if (userUpdateDTO == null || id != userUpdateDTO.Id)
             {
                 return BadRequest();
             }
-            Users model = new()
-            {
-                Id = userDTO.Id,
-                Name = userDTO.Name,
-                Email = userDTO.Email,
-                Password = userDTO.Password,
-                Role = userDTO.Role
-            };
+            Users model = _mapper.Map<Users>(userUpdateDTO);            
+
             _db.UsersTable.Update(model);
             await _db.SaveChangesAsync();
             return NoContent();
