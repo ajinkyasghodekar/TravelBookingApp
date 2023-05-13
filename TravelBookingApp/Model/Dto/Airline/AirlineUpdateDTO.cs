@@ -7,9 +7,6 @@ namespace TravelBookingApp.Model.Dto.Airline
     {
 
         [Required]
-        public int Id { get; set; }
-
-        [Required]
         public string AirlineCode { get; set; }
 
         public string AirlineName { get; set; }

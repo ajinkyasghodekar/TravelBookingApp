@@ -5,11 +5,8 @@ namespace TravelBookingApp.Model
 {
     public class Airlines
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
 
-        [Required]
         public string AirlineCode { get; set; }
 
         public string AirlineName { get; set; }

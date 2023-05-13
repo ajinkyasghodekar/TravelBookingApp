@@ -30,17 +30,17 @@ namespace TravelBookingApp.Controllers
         }
 
         // Get Airline by Id [HttpGet]
-        [HttpGet("Id:int")]
+        [HttpGet("{airlineCode}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetAirline(int id)
+        public async Task<ActionResult> GetAirline(string airlineCode)
         {
-            if (id == 0)
+            if (airlineCode == null)
             {
                 return BadRequest();
             }
-            var airline = await _db.AirlinesTable.FirstOrDefaultAsync(u => u.Id == id);
+            var airline = await _db.AirlinesTable.FirstOrDefaultAsync(u => u.AirlineCode == airlineCode);
             if (airline == null)
             {
                 return NotFound();
@@ -70,17 +70,17 @@ namespace TravelBookingApp.Controllers
         }
 
         // Delete a Airline [HttpDelete] based on Id
-        [HttpDelete("{id:int}", Name = "DeleteAirline")]
+        [HttpDelete("{airlineCode}", Name = "DeleteAirline")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAirline(int id)
+        public async Task<IActionResult> DeleteAirline(string airlineCode)
         {
-            if (id == 0)
+            if (airlineCode == null)
             {
                 return BadRequest();
             }
-            var airline = await _db.AirlinesTable.FirstOrDefaultAsync(u => u.Id == id);
+            var airline = await _db.AirlinesTable.FirstOrDefaultAsync(u => u.AirlineCode == airlineCode);
             if (airline == null)
             {
                 return NotFound();
@@ -94,9 +94,9 @@ namespace TravelBookingApp.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateAirline(int id, [FromBody] AirlineUpdateDTO airlineUpdateDTO)
+        public async Task<IActionResult> UpdateAirline(string airlineCode, [FromBody] AirlineUpdateDTO airlineUpdateDTO)
         {
-            if (airlineUpdateDTO == null || id != airlineUpdateDTO.Id)
+            if (airlineUpdateDTO == null || airlineCode != airlineUpdateDTO.AirlineCode)
             {
                 return BadRequest();
             }

@@ -61,6 +61,14 @@ namespace TravelBookingApp.Controllers
                 ModelState.AddModelError("", "Flight Name Already Exists");
                 return BadRequest(ModelState);
             }
+
+            // Custom validation for Airline Code
+            if (await _db.AirlinesTable.FirstOrDefaultAsync(u => u.AirlineCode.ToLower() == flightCreateDTO.AirlineCode.ToLower()) == null)
+            {
+                ModelState.AddModelError("", "Invalid Airline Code");
+                return BadRequest(ModelState);
+            }
+
             Flights model = _mapper.Map<Flights>(flightCreateDTO);
 
             await _db.FlightsTable.AddAsync(model);

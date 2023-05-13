@@ -11,8 +11,8 @@ using TravelBookingApp.Data;
 namespace TravelBookingApp.Migrations
 {
     [DbContext(typeof(MyAppDb))]
-    [Migration("20230512135529_AddFlightsTableToDb")]
-    partial class AddFlightsTableToDb
+    [Migration("20230513034057_AddUsersTable")]
+    partial class AddUsersTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,21 +26,14 @@ namespace TravelBookingApp.Migrations
 
             modelBuilder.Entity("TravelBookingApp.Model.Airlines", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("AirlineCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AirlineName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AirlineCode");
 
                     b.ToTable("AirlinesTable");
                 });
@@ -48,7 +41,10 @@ namespace TravelBookingApp.Migrations
             modelBuilder.Entity("TravelBookingApp.Model.Flights", b =>
                 {
                     b.Property<string>("FlightCode")
-                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AirlineCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FlightName")
@@ -56,6 +52,8 @@ namespace TravelBookingApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FlightCode");
+
+                    b.HasIndex("AirlineCode");
 
                     b.ToTable("FlightsTable");
                 });
@@ -129,6 +127,17 @@ namespace TravelBookingApp.Migrations
                             Password = "John123",
                             Role = "user"
                         });
+                });
+
+            modelBuilder.Entity("TravelBookingApp.Model.Flights", b =>
+                {
+                    b.HasOne("TravelBookingApp.Model.Airlines", "Airlines")
+                        .WithMany()
+                        .HasForeignKey("AirlineCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Airlines");
                 });
 #pragma warning restore 612, 618
         }
