@@ -2,6 +2,7 @@
 using TravelBookingApp.Model;
 using TravelBookingApp.Model.Dto.Airline;
 using TravelBookingApp.Model.Dto.Flight;
+using TravelBookingApp.Model.Dto.Journey;
 using TravelBookingApp.Model.Dto.User;
 
 namespace TravelBookingApp
@@ -21,6 +22,10 @@ namespace TravelBookingApp
             CreateMap<Flights, FlightDTO>().ReverseMap();
             CreateMap<Flights, FlightCreateDTO>().ReverseMap();
             CreateMap<Flights, FlightUpdateDTO>().ReverseMap();
+
+            CreateMap<Journeys, JourneyDTO>().ReverseMap();
+            CreateMap<Journeys, JourneyCreateDTO>().ReverseMap();
+            CreateMap<Journeys, JourneyUpdateDTO>().ReverseMap();
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelBookingApp.Data;
 
@@ -11,9 +12,11 @@ using TravelBookingApp.Data;
 namespace TravelBookingApp.Migrations
 {
     [DbContext(typeof(MyAppDb))]
-    partial class MyAppDbModelSnapshot : ModelSnapshot
+    [Migration("20230513070604_AddJourneysTableToDb")]
+    partial class AddJourneysTableToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,18 +62,7 @@ namespace TravelBookingApp.Migrations
             modelBuilder.Entity("TravelBookingApp.Model.Journeys", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AirlineCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FlightCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FromCity")
                         .IsRequired()
@@ -87,10 +79,6 @@ namespace TravelBookingApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AirlineCode");
-
-                    b.HasIndex("FlightCode");
 
                     b.ToTable("JourneysTable");
                 });
@@ -175,25 +163,6 @@ namespace TravelBookingApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Airlines");
-                });
-
-            modelBuilder.Entity("TravelBookingApp.Model.Journeys", b =>
-                {
-                    b.HasOne("TravelBookingApp.Model.Airlines", "Airlines")
-                        .WithMany()
-                        .HasForeignKey("AirlineCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TravelBookingApp.Model.Flights", "Flights")
-                        .WithMany()
-                        .HasForeignKey("FlightCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Airlines");
-
-                    b.Navigation("Flights");
                 });
 #pragma warning restore 612, 618
         }
