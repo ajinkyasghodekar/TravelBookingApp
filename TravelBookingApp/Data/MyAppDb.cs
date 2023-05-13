@@ -25,6 +25,8 @@ namespace TravelBookingApp.Data
         // Table for Journey
         public DbSet<Journeys> JourneysTable { get; set; }
 
+        // Table for AuthSecurity
+        public DbSet<AuthSecurity> AuthSecurityTable { get; set; }
 
         // Inserting sample data to Users table
         protected override void OnModelCreating(ModelBuilder modelBuilder)

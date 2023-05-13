@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Cryptography.X509Certificates;
 using TravelBookingApp.Data;
 using TravelBookingApp.Model;
@@ -79,9 +81,12 @@ namespace TravelBookingApp.Controllers
 
         // Delete a Flight [HttpDelete] based on Id
         [HttpDelete("{flightCode}", Name = "DeleteFlight")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteFlight(string flightCode)
         {
             if (flightCode == null)
