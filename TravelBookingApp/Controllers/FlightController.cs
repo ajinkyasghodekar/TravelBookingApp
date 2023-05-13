@@ -104,6 +104,13 @@ namespace TravelBookingApp.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> UpdateFlight(string flightCode, [FromBody] FlightUpdateDTO flightUpdateDTO)
         {
+            // Custom validation for Airline Code
+            if (await _db.AirlinesTable.FirstOrDefaultAsync(u => u.AirlineCode.ToLower() == flightUpdateDTO.AirlineCode.ToLower()) == null)
+            {
+                ModelState.AddModelError("", "Invalid Airline Code");
+                return BadRequest(ModelState);
+            }
+
             if (flightUpdateDTO == null || flightCode != flightUpdateDTO.FlightCode)
             {
                 return BadRequest();
