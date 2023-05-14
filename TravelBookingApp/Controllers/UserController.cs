@@ -72,7 +72,7 @@ namespace TravelBookingApp.Controllers
 
         // Delete a User [HttpDelete] based on Id
         [HttpDelete("{id:int}", Name = "DeleteUser")]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

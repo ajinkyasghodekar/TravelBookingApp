@@ -41,7 +41,7 @@ namespace TravelBookingApp.Repository
                 };
             }
 
-            // If user was found hen we need to generate a JWT.
+            // If user was found then we need to generate a JWT.
 
             var tokenHandler = new JwtSecurityTokenHandler();
 

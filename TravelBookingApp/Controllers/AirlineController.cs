@@ -71,7 +71,7 @@ namespace TravelBookingApp.Controllers
 
         // Delete a Airline [HttpDelete] based on Id
         [HttpDelete("{airlineCode}", Name = "DeleteAirline")]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
